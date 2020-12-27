@@ -9,6 +9,17 @@ app.set('views',path.join(__dirname,'/views'));
 app.get('/',(req,res)=>{
 	res.render('home');
 });
+app.get('/admin',(req,res)=>{
+	res.render('admin');
+});
+
+app.get('/student-sign-up',(req,res)=>{
+	res.render('student-sign-up');
+});
+
+app.get('/admin-sign-up',(req,res)=>{
+	res.render('admin-sign-up');
+})
 
 app.listen(8080,()=>{
 	console.log("Listening at port 8080.");
