@@ -1,0 +1,42 @@
+.heading{
+	font-weight: 900;
+	text-align: center;
+	font-style: italic;
+
+}
+
+.form-control{
+	width: 500px;
+
+}
+.form-student{
+	width:600px;
+	height: 400px;
+	margin-top:150px;
+	/*border: thick double #151569;*/
+	padding-top: 50px;
+	background: #e3e3e3;
+	
+}
+.nav-bar{
+	background-color: blue;
+}
+.new-user-heading{
+	margin-top: 70px;
+	height: 100px;
+	width: 600px;
+	background: #e3e3e3;
+	padding-top: 30px
+}
+#submit-button{
+	padding : 10px 10px 10px 10px;
+	margin-top: 20px;
+	width: 500px;
+}
+#nav-bar{
+	background: blue;
+}
+
+body{
+	background: #6e6e6e;
+}

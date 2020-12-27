@@ -1,0 +1,24 @@
+{
+  "name": "dbms_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/recursivecurse/DBMS_Frontend.git"
+  },
+  "author": "Aditya K Mishra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/recursivecurse/DBMS_Frontend/issues"
+  },
+  "homepage": "https://github.com/recursivecurse/DBMS_Frontend#readme",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
