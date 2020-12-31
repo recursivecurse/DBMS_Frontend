@@ -1,24 +1,26 @@
 <h1 class="st-signup-head">Sign Up</h1>
+	<form action='/create_student_table' method='POST'>
 			<div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Name</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_fullname'>
 			</div>
 			<div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">USN</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_usn'>
 			</div>
 			<div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">CGPA</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_cgpa'>
 			</div>
 			<div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Branch</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_branch'>
 			</div>
 			<div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Email</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_email'> 
 			</div>
 			<div>
-				<button type="button" id="second-button" class="btn btn-secondary btn-lg" >Signup</button>
+				<input type="submit" value='Signup' id="second-button" class="btn btn-secondary btn-lg" >
 			</div>
+	</form>
