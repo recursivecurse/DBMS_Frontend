@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+
+<body>
+
+	<%- include('partials/st-navbar') %>
+	<div class="st-db-head">
+		<div>
+			<h1 class="st-db-head1"> <%= st_name %> </h1>
+		</div>
+		<div>
+			<h2 class="st-db-head2"> <%= st_usn %> </h2> 
+		</div>
+	</div>
+	<!-- <h3><strong>Are your present in hostel ?</strong></h3> -->
+	<form action="/hostel-presence" method="POST">
+		<div class="checkbox">
+	  				<label>
+	    				<input type="checkbox" data-toggle="toggle" name='isPresent' value=1>
+	    				<h3><strong>Are you present in hostel ?</strong></h3>
+	  				</label>
+	  				<input type="submit">
+		</div>
+	</form>
+
+<center>
+	<div>
+		<form action="/feedback" method="POST">
+			<label for="w3review">Feedback:</label>
+			<textarea id="w3review" name="w3review" rows="4" cols="50">
+			  Enter Feedback
+			</textarea>
+  			<br><br>
+  			<input type="submit" value="Submit">
+		</form>
+
+	</div>
+</center>
+
+</body>
+
+<%- include('partials/footer') %>

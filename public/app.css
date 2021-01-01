@@ -63,6 +63,17 @@
 	margin-top: 100px;
 }
 
+.st-db-head{
+	height: 200px;
+	background: #e3e3e3; ;
+}
+.st-db-head1{
+	font-weight: 900;
+	font-size: 48;
+}
+.st-db-head2{
+	font-size: 18;
+}
 #second-button{
 	margin-top: 20px;
 	width: 660px;

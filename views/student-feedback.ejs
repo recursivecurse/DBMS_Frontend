@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+
+<body>
+	<center>
+	<%- include('partials/navbar') %>
+	<h1><strong>Feedback</strong></h1>
+
+  <%st_fb.forEach(function(item){%>
+
+		<p> <%=item.St_feedback%> </p>
+
+  <%})%>
+
+  </center>
+
+
+
+</body>
+
+<%- include('partials/footer') %>

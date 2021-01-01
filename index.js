@@ -1,8 +1,12 @@
 const express = require('express');
 const path = require('path');
+const flash = require('connect-flash');
 const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 var  mysql = require('mysql');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 const connection = mysql.createConnection({
 
@@ -15,9 +19,39 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
+mongoose.connect("mongodb://localhost/hostelManagement",{useNewUrlParser: true});
+
+mongoose.connection
+	.once("open",()=> console.log("Connected to MongoDB"))
+	.on("error",error => {
+		console.log("Your error",error);
+	});
+
+//Schema Mongodb
+
+var Schema = mongoose.Schema;
+
+var Feedback = new Schema({
+
+	St_feedback: String 
+});
+
+var feedback = mongoose.model("feedback",Feedback);
+
+
+
+
 var urlencodedParser  =  bodyParser.urlencoded({extended: false});
 
 app.use(express.static(path.join(__dirname,'public')));
+app.use(cookieParser());
+app.use(session({
+	secret:'secret123' ,
+	saveUninitialized: true ,
+	resave: true
+}));
+app.use(flash());
+
 // app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine','ejs');
@@ -67,7 +101,7 @@ app.post('/create-admin-table',urlencodedParser,(req,res)=>{
 	//console.log(req.body.isMessEmployee);
 	if(req.body.isMessEmployee == 1)
 	{
-		var admin_posts = {empID: req.body.ad_id, name: req.body.ad_name, designation: req.body.ad_des,phoneNumber: req.body.ad_no};
+		var admin_posts = {mempID: req.body.ad_id, name: req.body.ad_name, designation: req.body.ad_des,phoneNumber: req.body.ad_no};
 		connection.query('insert into MessEmployee set ?',admin_posts,function(error,results,fields){
 			if(error) throw error;
 			console.log(results);
@@ -86,6 +120,165 @@ app.post('/create-admin-table',urlencodedParser,(req,res)=>{
 		res.redirect('/admin');
 	}
 	
+});
+
+//Evaluate user
+
+app.post('/eval-user',urlencodedParser,(req,res)=>{
+	var id = req.body.identity;
+	req.flash('unique_id',id);
+	if(id.includes("1RV18")){
+		res.redirect('/st-dashboard');
+
+	}
+	else{
+		res.redirect('/ad-dashboard');
+	}
+});
+
+//Student Dashboard
+app.get('/st-dashboard',(req,res)=>{
+
+	// res.render('student-dashboard');
+	var id = req.flash('unique_id');
+	req.flash('presence-id',id);
+	console.log(id);
+	var q_data = `select * from student where usn="${id}" `;
+	connection.query(q_data, function(error,results,fields){
+		if(error) throw error;
+
+		res.render('student-dashboard',{st_name: results[0].name , st_usn: results[0].usn});
+	});
+
+});
+//Admin Dashboard
+
+app.get('/ad-dashboard',(req,res)=>{
+	var id = req.flash('unique_id');
+	// console.log(id[0]);
+	if(id[0].includes('memp')){
+		console.log('yes');
+		var q_data = `select * from MessEmployee where mempID="${id}" `;
+		connection.query(q_data, function(error,results,fields){
+		if(error) throw error;
+
+		// console.log(results);
+		res.render('admin-dashboard',{st_name: results[0].name , st_usn: results[0].designation});
+	});
+
+	}
+	else{
+		var q_data = `select * from HostelAdmin where empID="${id}" `;
+		connection.query(q_data, function(error,results,fields){
+		if(error) throw error;
+
+		// console.log(results);
+		res.render('admin-dashboard',{st_name: results[0].name , st_usn: results[0].designation});
+	});
+	}
+	
+});
+
+//payment status
+app.get('/update-fee',(req,res)=>{
+
+	res.render('update-fee');
+});
+
+app.post('/create-fee-table',urlencodedParser,(req,res)=>{
+	var fee_posts = {stID: req.body.st_id, HostelFee: req.body.fee_hostel, MessFee: req.body.fee_mess,Fine: req.body.fine};
+		connection.query('insert into PaymentDetails set ?',fee_posts,function(error,results,fields){
+			if(error) throw error;
+			console.log(results);
+
+		});
+		res.redirect('/');
+})
+
+//Check Payment Details
+app.get('/payment-board',(req,res)=>{
+	res.render('student-payment-query');
+});
+
+app.post('/st-id-payment',urlencodedParser,(req,res)=>{
+	
+	console.log(req.body);
+	req.flash('st-id',req.body.st_id);
+	res.redirect('/check-payment-details');
+});
+
+
+app.get('/check-payment-details',(req,res)=>{
+
+	var id = req.flash('st-id');
+	var q_data = `select * from PaymentDetails where stID="${id}" `;
+	connection.query(q_data, function(error,results,fields){
+		if(error) throw error;
+
+		res.render('student-payment',{hostel_fee: results[0].HostelFee , mess_fee: results[0].MessFee , hostel_fine: results[0].Fine});
+	});
+});
+
+//Hostel Presence
+
+app.post('/hostel-presence',urlencodedParser,(req,res)=>{
+
+	var pID = req.flash('presence-id');
+	console.log(pID);
+	var pPost = {PID: pID , presence: parseInt(req.body.isPresent) };
+
+	connection.query('insert into HostelPresence set ?',pPost,function(error,results,fields){
+			if(error) throw error;
+			console.log(results);
+
+	});
+	res.redirect('/');
+
+});
+
+app.get('/student-present',(req,res)=>{
+
+	connection.query('select SUM(2	) as sum from HostelPresence',function(error,results,fields){
+			if(error) throw error;
+			res.render('st_present',{st_num: results[0].sum*0.5});
+
+	});
+	
+
+});
+
+//feedback
+
+app.post('/feedback',urlencodedParser,(req,res)=>{
+
+	console.log(req.body.w3review);
+
+	var Student_Feedback = new feedback({
+
+		St_feedback: req.body.w3review
+	});
+
+	Student_Feedback.save(function(error){
+		console.log("feedback saved");
+		res.redirect('/');
+	if (error){
+		console.error(error);
+
+	}
+	});
+});
+
+app.get('/admin-feedback',(req,res)=>{
+
+	feedback.find({},function(err,foundData){
+		// console.log(foundData[0].St_feedback);
+
+		res.render('student-feedback',{st_fb: foundData});
+		if(err){
+			console.log(err);
+
+		}
+	});
 });
 
 app.listen(8080,()=>{
