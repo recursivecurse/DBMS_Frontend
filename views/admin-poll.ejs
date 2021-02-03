@@ -1,0 +1,42 @@
+<%- include('partials/head') %> 
+
+<body>
+    <%- include('partials/ad-navbar') %> 
+    <center>
+        <div class="ad-poll">
+            <h2 id="poll-head"><strong>Generate a Poll</strong></h2>
+            <form action="ad-poll", method="POST">
+                <input class="form-control su-in ap" placeholder="enter poll name" name="ptitle">
+                <input class="form-control su-in ap" placeholder="enter your question" name="pques">
+                <input class="form-control su-in op" placeholder="option 1" name="po1">
+                <input class="form-control su-in op" placeholder="option 2" name="po2">
+                <input class="form-control su-in op" placeholder="option 3" name="po3">
+                <input class="form-control su-in op" placeholder="option 4" name="po4">
+                <input type="submit" value="Launch Poll" class="btn btn-secondary btn-lg" id="st-sign-btn">
+            
+            </form>
+            <button class="btn btn-secondary btn-lg" id="st-sign-btn">Delete Poll</button>
+        </div>
+        <div class="get-poll presHide">
+            <h3><strong><em>Poll Results</em></strong></h3>
+            <h4 id="Poptions"><strong><%= Pollres.option1 %> :- <%= Pollres.ansop1%></strong></h4>
+            <h4 id="Poptions"><strong><%= Pollres.option2 %> :- <%= Pollres.ansop2%></strong></h4>
+            <h4 id="Poptions"><strong><%= Pollres.option3 %> :- <%= Pollres.ansop3%></strong></h4>
+            <h4 id="Poptions"><strong><%= Pollres.option4 %> :- <%= Pollres.ansop4%></strong></h4>
+            
+        </div>
+            <button class="btn btn-secondary btn-lg presBtn">See Poll Result</button>
+    </center>
+
+   <script>
+      
+       var Pres = document.querySelector('.get-poll');
+       var PresBtn = document.querySelector('.presBtn');
+
+       PresBtn.addEventListener('click', ()=>{
+            Pres.classList.toggle('presHide');
+       });
+   </script>
+</body>
+
+<%- include('partials/footer') %>

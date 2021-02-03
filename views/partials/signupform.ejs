@@ -1,6 +1,24 @@
 <h1 class="st-signup-head">Sign Up</h1>
 	<form action='/create_student_table' method='POST'>
-			<div class="input-group input-group-lg">
+		<div class="st-detail">
+			<input type='text' class='form-control su-in name' placeholder='Enter your name'name='st_fullname'>
+			<input type='text' class='form-control su-in usn' placeholder='Enter your usn'name='st_usn'>
+			<input type='text' class='form-control su-in cgpa' placeholder='Enter your cgpa'name='st_cgpa'>
+			<input type='text' class='form-control su-in branch' placeholder='Enter your branch'name='st_branch'>
+			<input type='text' class='form-control su-in mail' placeholder='Enter your email'name='st_email'>
+		</div>
+		<div class='st-auth'>
+			<h6><em>Student Login Details</em></h4>
+			<input type='text' class='form-control su-in stauth' placeholder='Enter your username'name='su_username'>
+			<input type='password' class='form-control su-in stauth' placeholder='Enter your password'name='su_password'>
+			<input type='passsword' class='form-control su-in stauth' placeholder='Re-enter your password'name='su_repassword'>
+			<input type='submit' value='Signup' class='btn btn-secondary btn-lg' id="st-sign-btn">
+		</div>
+		
+		
+		
+
+			<!-- <div class="input-group input-group-lg">
 		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Name</span>
 		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='st_fullname'>
 			</div>
@@ -22,5 +40,5 @@
 			</div>
 			<div>
 				<input type="submit" value='Signup' id="second-button" class="btn btn-secondary btn-lg" >
-			</div>
+			</div> -->
 	</form>

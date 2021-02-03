@@ -1,32 +1,22 @@
 <h1 class="st-signup-head">Sign Up</h1>
 	<form action='/create-admin-table' method='post' >
-			<div class="input-group input-group-lg">
-		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Name</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='ad_name'>
-			</div>
-			<div class="input-group input-group-lg">
-		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Emp-ID</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='ad_id'>
-			</div>
-			<div class="input-group input-group-lg">
-		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Designation</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='ad_des'>
-			</div>
-			<div class="input-group input-group-lg">
-		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Phone Number</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name='ad_no'>
-			</div>
-			<!-- <div class="input-group input-group-lg">
-		  		<span class="input-group-text su-in" id="inputGroup-sizing-lg">Email</span>
-		  		<input  type="text" class="form-control su-in" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-			</div> -->
+		<div class='st-detail'>
+			<input class='form-control su-in aname' placeholder='Enter your name' name='ad_name'>
+			<input class='form-control su-in aid' placeholder='Enter your employee ID' name='ad_id'>
+			<input class='form-control su-in ades' placeholder='Enter your designation' name='ad_des'>
+			<input class='form-control su-in ano' placeholder='Enter your contact number' name='ad_no'>
 			<div class="checkbox">
-  				<label>
-    				<input type="checkbox" data-toggle="toggle" name='isMessEmployee' value=1>
-    				Are you a Mess Employee ?
-  				</label>
-			</div>
-			<div>
-				<input type="submit" value="Signup" id="second-button" class="btn btn-secondary btn-lg" >
-			</div>
+				<label>
+				<input type="checkbox" data-toggle="toggle" name='isMessEmployee' value=1>
+				Are you a Mess Employee ?
+				</label>
+		</div>
+		<div class="st-auth">
+			<h6><em>Admin Login Details</em></h6>
+			<input class='form-control su-in stauth' type ="text" placeholder="Enter your username " name="ausername">
+			<input class='form-control su-in stauth' type ="password" placeholder="Enter your password " name="apassword">
+			<input class='form-control su-in stauth' type ="password" placeholder="Re-enter your password " name="arepassword">
+			<input type="submit" value="Signin" class="btn btn-secondary btn-lg" id="st-sign-btn">	
+		</div>
+		
 	</form>

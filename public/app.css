@@ -74,11 +74,153 @@
 .st-db-head2{
 	font-size: 18;
 }
-#second-button{
-	margin-top: 20px;
-	width: 660px;
+/* Student Signup form */
+
+.form-control.su-in.usn{
+	margin-top: 10px;
+	display: inline;
+	width: 250px;
+
+}
+.form-control.su-in.cgpa{
+	margin-top: 10px;
+	display: inline;
+	width: 250px;
+}
+.form-control.su-in.name{
+	/* display: inline; */
+	/* width: 250px; */
+	margin-top: 10px;
+
+}
+.form-control.su-in.branch{
+	margin-top: 10px;
+
+}
+.form-control.su-in.mail{
+	margin-top: 10px;
+
+}
+.form-control.su-in.stauth{
+	margin-top: 10px;
 }
 
+.st-auth{
+	
+	margin-top: 40px;
+	background-color: #e6e6e6;
+	justify-content: center;	
+	height: 300px;
+}
+.st-detail{
+	margin-top: 40px;
+}
+
+#st-sign-btn{
+	margin-top: 10px;
+	width: 500px;
+}
+
+/* Admin signup */
+
+.form-control.su-in.aname{
+	margin-top: 10px;
+
+}
+.form-control.su-in.aid{
+	margin-top: 10px;
+	display: inline;
+	width: 250px;
+
+}
+.form-control.su-in.ades{
+	margin-top: 10px;
+	display: inline;
+	width: 250px;
+
+}
+.form-control.su-in.ano{
+	margin-top: 10px;
+
+}
+
+/* Admin Poll */
+
+.ad-poll{
+	width: 600px;
+	height: 400px;
+	background-color: #e3e3e3;
+	margin-top: 100px;
+	align-self: center;
+}
+
+/* Poll-Student-Side */
+
+.stPoll{
+	margin-top: 200px;
+	width: 600px;
+	height: 400px;
+	background-color: #e3e3e3;
+}
+
+.stPollhide{
+	display: none;
+}
+
+.pbtn{
+	margin-top: 10px;
+	width: 500px;
+	
+}
+#pol{
+	display: inline;
+	background-color: beige;
+	font-size: 1.5em;
+	border: solid;
+	
+}
+.form-control.su-in.op{
+	width: 250px;
+	display: inline;
+}
+.presHide{
+	display: none;
+}
+.get-poll{
+	margin-top: 100px;
+	width: 600px;
+	background-color: #e3e3e3;
+	
+}
+
+/* //Student Payment */
+
+.st-payment{
+	margin-top: 70px;
+	width: 500px;
+	height: 200px;
+	background-color: #e3e3e3;
+	
+}
+.st-py-el{
+
+	margin-top: 70px;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+  }
+
+.py-table{
+
+	margin-top: 200px;
+	width: 90%;
+	height: 200px;
+	background-color: #e3e3e3;
+}
+
+
 body{
-	background: #6e6e6e;
+	background: #e6e6e6;
 }

@@ -1,0 +1,60 @@
+<%- include('partials/head') %>
+
+<body>
+    <%- include('partials/st-navbar') %>
+    <center>
+        <h1 id="pollResponse"></h1>
+        <div class="stPoll">
+            
+            <h3><strong> <%= stPoll.title %> </strong></h3>
+            <h5><em><strong><%= stPoll.ques %></strong></em></h5>
+            <form action="/st-poll" method="POST">
+            <div id="pol">
+            <label class="radio-inline">
+                <input type="radio"  name="op" value= 1  ><%= stPoll.option1 %>
+            </label>
+            </div>
+            <div id="pol">
+            <label class="radio-inline">
+                <input type="radio"  name="op" value= 2 ><%= stPoll.option2 %>
+            </label>
+            </div>
+            <div id="pol">
+            <label class="radio-inline">
+                <input type="radio"  name="op" value= 3 ><%= stPoll.option3 %>
+            </label>
+            </div>
+            <div id="pol">
+            <label class="radio-inline">
+                <input type="radio"  name="op" value= 4 > <%= stPoll.option4 %>
+            </label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-secondary btn-lg pb" id="st-sign-btn">
+            </form>
+            
+            <!-- <script>
+                var pl = document.querySelector('.stPoll');
+                var pb = document.querySelector('.pb');
+                pb.addEventListener('click', ()=>{
+                    pl.classList.add('stPollhide');
+                    res.send("<h1>Thank you for your response</h1>");
+                });
+            </script> -->
+
+           
+        </div>
+    </center>
+    <!-- <script>
+        var btn = document.querySelector('#Pbtn1');
+        var pollDiv = document.querySelector('.stPoll');
+        var pollResponse = document.querySelector('#pollResponse');
+        btn.addEventListener('click', ()=>{
+            pollDiv.classList.add('stPollhide');
+            pollResponse.innerHTML="<strong><em>Thank you for your response</em></strong>";
+            // alert("Thank you for your response")
+            
+        });
+    </script> -->
+</body>
+
+<%- include('partials/footer') %>

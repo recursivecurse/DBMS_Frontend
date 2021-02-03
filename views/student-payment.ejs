@@ -2,14 +2,27 @@
 
 <body>
 	<%- include('partials/navbar') %>
-	<form action="/st-id-payment" method="post">
-		<input type="text" name="st_id">
-		<input type="submit" value="submit">
-	</form>
-	<h3>Hostel Fee: <%=hostel_fee %> </h3>
-	<h3>Mess Fee: <%=mess_fee %> </h3>
-	<h3>Hostel Fine: <%=hostel_fine %> </h3>
-	<!-- <h3>Hostel Fee: <%=hostel_fee %> </h3> -->
+	<center>
+		<!-- <form action="/st-id-payment" method="post">
+			<input type="text" name="st_id">
+			<input type="submit" value="submit">
+		</form> -->
+		<div class="py-table">
+			<table style="width:80%">
+				<tr>
+					<th><h3><strong>Hostel Fee &nbsp</strong></h3></th>
+					<th><h3><strong>Mess Fee &nbsp</strong></h3></th>
+					<th><h3><strong>Hostel Fine &nbsp</strong></h3></th>
+				</tr>
+				<tr>
+					<td><h3><strong> <%=hostel_fee %> </strong></h3></td>
+					<td><h3><strong> <%=mess_fee %> </strong></h3></td>
+					<td><h3><strong> <%=hostel_fine %> </strong></h3></td>
+				</tr>
+			
+			</table>
+		</div>
+	</center>
 </body>
 
 <%- include('partials/footer') %>

@@ -2,11 +2,14 @@
 
 <body>
 	<%- include('partials/navbar') %>
-	<form action="/st-id-payment" method="post">
-		<input type="text" name="st_id">
-		<input type="submit" value="submit">
-	</form>
-	
+	<center>
+		<div class="st-payment">		
+			<form action="/st-id-payment" method="post">
+				<input class="st-py-el" type="text" placeholder="enter student usn" name="st_id">
+				<input class="st-py-el" type="submit" value="submit">
+			</form>
+		</div>
+	</center>
 </body>
 
 <%- include('partials/footer') %>

@@ -29,14 +29,32 @@ mongoose.connection
 
 //Schema Mongodb
 
+// Feedback
 var Schema = mongoose.Schema;
-
 var Feedback = new Schema({
-
 	St_feedback: String 
 });
-
 var feedback = mongoose.model("feedback",Feedback);
+
+
+//Poll 
+var Poll = new Schema({
+
+	_id : Number ,
+	title: String , 
+	ques: String , 
+	option1: String , 
+	option2: String , 
+	option3: String ,
+	option4: String ,
+	ansop1 : Number ,
+	ansop2 : Number ,
+	ansop3 : Number ,
+	ansop4 : Number
+
+});
+var poll = mongoose.model("poll",Poll);
+
 
 
 
@@ -177,6 +195,20 @@ app.get('/ad-dashboard',(req,res)=>{
 	});
 	}
 	
+
+});
+
+// Admin Live Poll
+
+app.get('/admin-poll',(req,res)=>{
+
+	
+	poll.find({},function(err,foundData){
+		res.render('admin-poll',{Pollres: foundData[0]});
+		if(err){
+			res.send("<h1><strong>Eroor!!!</strong></h1>");
+		}
+	});
 });
 
 //payment status
@@ -263,8 +295,7 @@ app.post('/feedback',urlencodedParser,(req,res)=>{
 		res.redirect('/');
 	if (error){
 		console.error(error);
-
-	}
+		}
 	});
 });
 
@@ -279,6 +310,72 @@ app.get('/admin-feedback',(req,res)=>{
 
 		}
 	});
+});
+
+app.post('/ad-poll',urlencodedParser,(req,res)=>{
+	// console.log(req.body);
+
+	var adminPoll = new poll({
+		_id : 1 , 
+		title: req.body.ptitle ,
+		ques : req.body.pques ,
+		option1: req.body.po1 ,
+		option2: req.body.po2 ,
+		option3: req.body.po3 ,
+		option4: req.body.po4 ,
+		ansop1 : 0 ,
+		ansop2 : 0 ,
+		ansop3 : 0 ,
+		ansop4 : 0
+	});
+	adminPoll.save(function(error){
+		console.log("Poll saved");
+		res.redirect('/admin-poll');
+	if (error){
+		console.error(error);
+		}
+	});
+});
+
+app.get('/poll-board',(req,res)=>{
+
+	poll.find({_id: 1},function(err,foundData){
+		// console.log(foundData[0].ques);
+		console.log()
+		res.render('student-poll',{stPoll:foundData[0]});
+		if(err){
+			res.send("<h1><strong> Poll Not Found </strong></h1>")
+		}
+	});
+	
+});
+
+app.post('/st-poll',urlencodedParser,(req,res)=>{
+	if(req.body.op == 1)
+	{
+		poll.updateOne({_id:1},{$inc:{ansop1: 1}},function(err,numAffected){
+			console.log(numAffected);
+		});
+	}
+	else if(req.body.op == 2)
+	{
+		poll.updateOne({_id:1},{$inc:{ansop2: 1}},function(err,numAffected){
+			console.log(numAffected);
+		});
+	}
+	else if(req.body.op == 3)
+	{
+		poll.updateOne({_id:1},{$inc:{ansop3: 1}},function(err,numAffected){
+			console.log(numAffected);
+		});
+	}
+	else 
+	{
+		poll.updateOne({_id:1},{$inc:{ansop4: 1}},function(err,numAffected){
+			console.log(numAffected);
+		});
+	}
+	res.redirect('poll-board');
 });
 
 app.listen(8080,()=>{
