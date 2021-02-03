@@ -1,0 +1,30 @@
+<%- include('partials/head') %>
+
+<body>
+    <!-- <center>
+        <div>
+            <form action="/postMessForm" method="post">
+                <input type='text' class='form-control su-in Adusn' placeholder='enter the usn' name='amf_usn'>
+                <input type='submit' class='btn btn-secondary btn-lg' value="submit">
+            </form>
+        </div>
+    <center> -->
+
+<center>
+    <table style='width:80%'>
+        <tr>
+            <th><h3><strong>USN</strong></h3></th>
+            <th><h3><strong>RoomNo</strong></h3></th>
+            <th><h3><strong>Payment Date</strong></h3></th>
+        </tr>
+        <tr>
+            <td><h3><strong><%=usn%></strong></h3></td>
+            <td><h3><strong><%=roomNo%></strong></h3></td>
+            <td><h3><strong><%=feeDate%></strong></h3></td>
+        </tr>
+           
+    </table>
+
+</center> 
+</body>
+<%- include('partials/footer') %>

@@ -270,7 +270,7 @@ app.post('/hostel-presence',urlencodedParser,(req,res)=>{
 
 app.get('/student-present',(req,res)=>{
 
-	connection.query('select SUM(2	) as sum from HostelPresence',function(error,results,fields){
+	connection.query('select SUM(2) as sum from HostelPresence',function(error,results,fields){
 			if(error) throw error;
 			res.render('st_present',{st_num: results[0].sum*0.5});
 
@@ -376,6 +376,80 @@ app.post('/st-poll',urlencodedParser,(req,res)=>{
 		});
 	}
 	res.redirect('poll-board');
+});
+
+//Student Mess Form
+
+app.get('/st-mess',(req,res)=>{
+
+	res.render('student-mess-form');
+
+});
+
+app.post('/mess_form_post',urlencodedParser,(req,res)=>{
+
+	console.log(req.body);
+	var mess_posts = {usn: req.body.mf_usn , roomNo: req.body.mf_room , feeDate: req.body.mf_date};
+	connection.query('insert into MessForm set ?',mess_posts,function(error,results,fields){
+		if(error) throw error;
+		console.log(results);
+	});
+	res.redirect('/st-mess');
+
+});
+
+app.get('/ad-mess-form',(req,res)=>{	
+	res.render('AdMessForm');
+});
+
+app.post('/postMessForm',urlencodedParser,(req,res)=>{
+
+	var results = req.body.amf_usn;
+	// console.log(results);
+	req.flash('amf_usn',results);
+	res.redirect('/ad-mess-form2');
+});
+
+app.get('/ad-mess-form2',(req,res)=>{
+
+	var results = req.flash('amf_usn');
+	if(results.length > 0)
+	{
+		var q_data = `select * from MessForm where usn="${results[0]}" `;
+		connection.query(q_data, function(error,results,fields){
+			if(error) throw error;
+
+			 res.render('AdMessForm2', {usn: results[0].usn , roomNo: results[0].roomNo , feeDate: results[0].feeDate});
+			 console.log(results[0].usn);
+		});
+	}
+
+});
+
+//Room vacancy
+app.get('/ad-hostel-rooms',(req,res)=>{
+
+	res.render('adRooms')
+});
+
+app.post('/postRoom',urlencodedParser,(req,res)=>{
+
+	req.flash('adr_room',req.body.adr_room);
+	res.redirect('/ad-hostel-rooms2');
+});
+
+app.get('/ad-hostel-rooms2',(req,res)=>{
+
+	var id = req.flash('adr_room');
+	var q_data = `select * from Rooms where roomNo="${id}" `;
+	connection.query(q_data, function(error,results,fields){
+		if(error) throw error;
+
+		 res.render('AdRooms2', {usn: results[0].allocated_usn , roomno: results[0].roomNo , vacancy: results[0].vacancy});
+		//  console.log(results);
+
+	});
+	
 });
 
 app.listen(8080,()=>{

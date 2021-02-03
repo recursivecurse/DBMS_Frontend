@@ -1,0 +1,17 @@
+<%- include('partials/head') %>
+
+<body>
+    <center>
+        <div class="MessForm">
+            <form action="/mess_form_post" method="post">
+                <h2><strong>Mess Form</strong></h2>
+                <input type='text' class='form-control su-in usnM' placeholder='Enter your usn'name='mf_usn'>
+			    <input type='text' class='form-control su-in roomM' placeholder='Enter your room no'name='mf_room'>
+                <input type='text' class='form-control su-in feeDateM' placeholder='Enter your fee payment date'name='mf_date'>
+                <input type="submit" class='btn btn-secondary btn-lg' value="Submit">
+            </form>
+        </div>
+    </center>
+</body>
+
+<%- include('partials/footer') %>

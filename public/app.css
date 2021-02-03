@@ -220,6 +220,13 @@ table, th, td {
 	background-color: #e3e3e3;
 }
 
+/* Mess form */
+
+.MessForm{
+
+	margin-top: 100px;
+	
+}
 
 body{
 	background: #e6e6e6;

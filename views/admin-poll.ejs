@@ -15,7 +15,7 @@
                 <input type="submit" value="Launch Poll" class="btn btn-secondary btn-lg" id="st-sign-btn">
             
             </form>
-            <button class="btn btn-secondary btn-lg" id="st-sign-btn">Delete Poll</button>
+            <button class="btn btn-secondary btn-lg deletePoll" id="st-sign-btn">Delete Poll</button>
         </div>
         <div class="get-poll presHide">
             <h3><strong><em>Poll Results</em></strong></h3>
@@ -29,10 +29,25 @@
     </center>
 
    <script>
-      
+       
+        
+
+            var DelPollBtn = document.querySelector('#st-sign-btn');
+
+            DelPollBtn.addEventListener('click',()=>{
+                poll.deleteOne({_id : 1},function(err,foundData){
+                    if(err) res.send("error");
+                });
+            });
+
+    
+
+
+
+       //
        var Pres = document.querySelector('.get-poll');
        var PresBtn = document.querySelector('.presBtn');
-
+       
        PresBtn.addEventListener('click', ()=>{
             Pres.classList.toggle('presHide');
        });
