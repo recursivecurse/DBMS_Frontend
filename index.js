@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 var  mysql = require('mysql');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
-
+var multer = require('multer');
+var fs = require('fs');
 const connection = mysql.createConnection({
 
 	host    :  'localhost', 
@@ -55,13 +56,41 @@ var Poll = new Schema({
 });
 var poll = mongoose.model("poll",Poll);
 
+//image receit
+ 
+var imageSchema = new mongoose.Schema({
+    usn: String,
+    img: String
+    // {
+    //     data: Buffer,
+    //     contentType: String
+    // }
+});
+
+var imgModel = new mongoose.model('Image', imageSchema);
+// module.exports=imgModel;
+//configuring multer
+
+var storage = multer.diskStorage({
+	destination:"./public/uploads/",
+	// (req, file, cb) => {
+    //     cb(null, 'uploads')
+    // },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+    }
+});
+
+var upload = multer({ storage: storage }).single('image');
 
 
+// Step 6 - load the mongoose model for Image 
+// var imgModel = require('./model');
 
 
 var urlencodedParser  =  bodyParser.urlencoded({extended: false});
 
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'./public/')));
 app.use(cookieParser());
 app.use(session({
 	secret:'secret123' ,
@@ -100,6 +129,9 @@ app.post('/create_student_table',urlencodedParser,(req,res)=>{
 	var St_branch = req.body.st_branch;
 	var St_email = req.body.st_email;
 
+	console.log(req.body.st_roomNo);
+	// req.flash('roomNo',req.body.st_roomNo);
+	// req.flash('StUSN',req.body.st_usn);
 	// console.log(st_fullname + " " + st_usn + " " + st_email + " " + st_cgpa + " ");
 	// connection.connect();
 	var posts = {usn: St_usn, name: St_fullname, cgpa: St_cgpa, branch: St_branch, email: St_email };
@@ -109,8 +141,19 @@ app.post('/create_student_table',urlencodedParser,(req,res)=>{
 		console.log(results);
 	});
 	// connection.end();
+	var posts = {roomNo: req.body.st_roomNo , allocated_usn: req.body.st_usn , vacancy: 'Not Vacant'};
+
+	connection.query('insert into Rooms set ?',posts,function(error,results,fields){
+		if(error) throw error;
+		console.log(results);
+	});
 	res.redirect('/');
 });
+
+// app.post('/post_student_room',urlencodedParser,(req,res)=>{
+
+	
+// });
 
 //Sending employee data to /create-admin-table
 
@@ -202,12 +245,26 @@ app.get('/ad-dashboard',(req,res)=>{
 
 app.get('/admin-poll',(req,res)=>{
 
-	
-	poll.find({},function(err,foundData){
-		res.render('admin-poll',{Pollres: foundData[0]});
-		if(err){
-			res.send("<h1><strong>Eroor!!!</strong></h1>");
-		}
+	// res.render('admin-poll');
+	poll.find({_id: 1},function(err,foundData){
+		
+			res.render('admin-poll',{Pollres: foundData[0]});
+		
+			// res.render('/admin-poll');
+
+		// if(err){
+		// 	res.send("<h1><strong>Eroor!!!</strong></h1>");
+		// }
+	});
+});
+
+app.delete('/ad-poll-delete',(req,res)=>{
+
+	poll.deleteOne({_id: 1},function(err,foundData){
+		if(err) throw err;
+
+		console.log('deleted');
+		res.redirect('/admin-poll');
 	});
 });
 
@@ -224,8 +281,22 @@ app.post('/create-fee-table',urlencodedParser,(req,res)=>{
 			console.log(results);
 
 		});
-		res.redirect('/');
-})
+		res.redirect('/update-fee');
+});
+
+app.post('/update-fee-table',urlencodedParser,(req,res)=>{
+
+	console.log(req.body.st_id1);
+	
+	var posts = [req.body.fee_hostel1,req.body.fee_mess1,req.body.fine1,req.body.st_id1];
+	connection.query('UPDATE PaymentDetails SET HostelFee = ? , MessFee = ? , Fine = ? WHERE stId = ?' ,posts,function(error,results,fields){
+		if(error) throw error;
+
+		console.log(results);
+	});
+
+	res.redirect('/update-fee');
+});
 
 //Check Payment Details
 app.get('/payment-board',(req,res)=>{
@@ -255,16 +326,16 @@ app.get('/check-payment-details',(req,res)=>{
 
 app.post('/hostel-presence',urlencodedParser,(req,res)=>{
 
-	var pID = req.flash('presence-id');
-	console.log(pID);
-	var pPost = {PID: pID , presence: parseInt(req.body.isPresent) };
+	// var pID = req.flash('presence-id');
+	// console.log(pID);
+	var pPost = {PID: req.body.presence_usn , presence: parseInt(req.body.isPresent) };
 
 	connection.query('insert into HostelPresence set ?',pPost,function(error,results,fields){
 			if(error) throw error;
 			console.log(results);
 
 	});
-	res.redirect('/');
+	res.redirect('/st-dashboard');
 
 });
 
@@ -292,7 +363,7 @@ app.post('/feedback',urlencodedParser,(req,res)=>{
 
 	Student_Feedback.save(function(error){
 		console.log("feedback saved");
-		res.redirect('/');
+		res.redirect('/st-dashboard');
 	if (error){
 		console.error(error);
 		}
@@ -443,13 +514,80 @@ app.get('/ad-hostel-rooms2',(req,res)=>{
 	var id = req.flash('adr_room');
 	var q_data = `select * from Rooms where roomNo="${id}" `;
 	connection.query(q_data, function(error,results,fields){
-		if(error) throw error;
-
-		 res.render('AdRooms2', {usn: results[0].allocated_usn , roomno: results[0].roomNo , vacancy: results[0].vacancy});
+		if(error){
+			res.send("<center><h1>Room Not Allocated Yet</h1></center> ");
+		}
+		else
+		 	res.render('AdRooms2', {usn: results[0].allocated_usn , roomno: results[0].roomNo , vacancy: results[0].vacancy});
 		//  console.log(results);
 
 	});
 	
+});
+
+//Payment Receit
+
+app.get('/payment-receit',(req,res)=>{
+
+	res.render('st_pay_receit');
+});
+
+app.post('/payment-receit-post', upload, (req, res, next) => {
+ 
+    // var obj = {
+    //     usn: req.body.img_usn,
+	// 	img: req.body.image
+	// 	// {
+    //     //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+    //     //     contentType: 'image/png'
+    //     // }
+	// }
+	var imageUpload = new imgModel({
+		usn: req.body.img_usn ,
+		img: req.file.filename
+	});
+
+	imageUpload.save(function(err, doc){
+		if(err) throw err;
+
+		console.log(doc);
+	})
+    // imgModel.create(obj, (err, item) => {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     else {
+    //         // item.save();
+    //         res.redirect('/ad-pay-receit');
+    //     }
+	// });
+	res.redirect('/payment-receit');
+});
+
+app.get('/ad-receit',(req,res)=>{
+
+	res.render('adpayreceit');
+});
+
+app.post('/ad-receit-post',urlencodedParser,(req,res)=>{
+	req.flash('usnId',req.body.adimg_usn);
+	res.redirect('/ad-pay-receit');
+});
+
+app.get('/ad-pay-receit',(req,res)=>{
+
+	var id = req.flash('usnId');
+	console.log(id[0]);
+	imgModel.find({usn: id[0].toString()}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('An error occurred', err);
+        }
+        else {
+			res.render('adPayReceit', { items: items });
+			console.log(items);	
+        }
+    });
 });
 
 app.listen(8080,()=>{

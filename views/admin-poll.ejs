@@ -15,8 +15,9 @@
                 <input type="submit" value="Launch Poll" class="btn btn-secondary btn-lg" id="st-sign-btn">
             
             </form>
-            <button class="btn btn-secondary btn-lg deletePoll" id="st-sign-btn">Delete Poll</button>
+            <button class="btn btn-secondary btn-lg deletePoll" id="DeletePollBtn">Delete Poll</button>
         </div>
+        
         <div class="get-poll presHide">
             <h3><strong><em>Poll Results</em></strong></h3>
             <h4 id="Poptions"><strong><%= Pollres.option1 %> :- <%= Pollres.ansop1%></strong></h4>
@@ -25,20 +26,39 @@
             <h4 id="Poptions"><strong><%= Pollres.option4 %> :- <%= Pollres.ansop4%></strong></h4>
             
         </div>
-            <button class="btn btn-secondary btn-lg presBtn">See Poll Result</button>
+            <button class="btn btn-secondary btn-lg presBtn">See Poll Result</button> 
     </center>
 
+    
    <script>
        
         
 
-            var DelPollBtn = document.querySelector('#st-sign-btn');
+            var DelPollBtn = document.querySelector('#DeletePollBtn');
 
             DelPollBtn.addEventListener('click',()=>{
-                poll.deleteOne({_id : 1},function(err,foundData){
-                    if(err) res.send("error");
-                });
+                
+                fetch("http://localhost:8080/ad-poll-delete", { 
+      
+             // Adding method type 
+            method: "DELETE", 
+                
+            // Adding body or contents to send 
+            
+                
+            // Adding headers to the request 
+            headers: { 
+                "Content-type": "application/json; charset=UTF-8"
+            } 
+        }) 
+    
+  // Converting to JSON 
+  .then(response => response.json()) 
+    
+  // Displaying results to console 
+  .then(json => console.log(json)); 
             });
+            
 
     
 
